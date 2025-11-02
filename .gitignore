@@ -39,4 +39,3 @@ build/
 .DS_Store
 
 ### Arquivos de teste ###
-TestDatabase.java

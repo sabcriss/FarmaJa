@@ -90,11 +90,12 @@ public class ClienteMenu {
 
     private void editarPerfil() {
         System.out.println("\n--- 👤 Editar Perfil ---");
-        System.out.println("Nome atual: " + clienteLogado.getNome());
+        System.out.println("Nome: " + clienteLogado.getNome());
         System.out.println("Email: " + clienteLogado.getEmail());
         System.out.println("------------------------");
         System.out.println("1. Alterar Nome");
         System.out.println("2. Alterar Senha");
+        System.out.println("3. Cadastrar Novo Endereço"); // <--- NOVA OPÇÃO
         System.out.println("0. Voltar");
 
         int op = LeitorConsole.lerInteiro("Opção: ");
@@ -102,12 +103,34 @@ public class ClienteMenu {
         if (op == 1) {
             String novoNome = LeitorConsole.lerString("Digite o novo nome: ");
             clienteLogado.setNome(novoNome);
-            // Aqui você chamaria usuarioDAO.atualizar(clienteLogado) se tivesse o método
-            System.out.println("✅ Nome alterado com sucesso (na sessão atual)!");
+            System.out.println("✅ Nome alterado (na sessão atual)!");
+
         } else if (op == 2) {
             String novaSenha = LeitorConsole.lerString("Digite a nova senha: ");
             clienteLogado.setSenha(novaSenha);
-            System.out.println("✅ Senha alterada com sucesso!");
+            System.out.println("✅ Senha alterada!");
+
+        } else if (op == 3) {
+            System.out.println("\n--- 📍 Novo Endereço ---");
+            String rua = LeitorConsole.lerString("Rua: ");
+            String numero = LeitorConsole.lerString("Número: ");
+            String bairro = LeitorConsole.lerString("Bairro: ");
+            String cidade = LeitorConsole.lerString("Cidade: ");
+            String uf = LeitorConsole.lerString("Estado (UF): ");
+            String cep = LeitorConsole.lerString("CEP: ");
+            String complemento = LeitorConsole.lerString("Complemento (opcional): ");
+
+            Endereco novoEnd = new Endereco(
+                    clienteLogado.getId(), // ID do usuário
+                    rua, numero, bairro, cidade, uf, cep, complemento
+            );
+
+            try {
+                String res = usuarioController.adicionarEndereco(novoEnd);
+                System.out.println("\n" + res);
+            } catch (Exception e) {
+                System.out.println("❌ Erro ao salvar endereço: " + e.getMessage());
+            }
         }
     }
 

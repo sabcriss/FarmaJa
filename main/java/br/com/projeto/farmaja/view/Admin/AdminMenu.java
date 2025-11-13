@@ -438,10 +438,7 @@ public class AdminMenu {
             System.out.print("Requer Receita? (s/n): ");
             boolean receita = lerString().equalsIgnoreCase("s");
 
-            // TODO: Selecionar Fornecedor da lista
-            Integer fornecedorId = 1; // Simulado
-            System.out.println("Usando Fornecedor ID (Simulado): " + fornecedorId);
-
+            // Cria o medicamento com o ID do fornecedor validado
             Medicamento med = new Medicamento(
                     codigo, nome, desc, preco, estoque, estoqueMin,
                     fornecedorId, receita
@@ -456,7 +453,6 @@ public class AdminMenu {
             System.out.println("Ocorreu um erro inesperado: " + e.getMessage());
         }
     }
-
     private void listarMedicamentosAtivos() {
         System.out.println("\n--- Medicamentos Ativos ---");
         List<Medicamento> medicamentos = medicamentoController.listarMedicamentosAtivos();
@@ -808,9 +804,6 @@ public class AdminMenu {
             }
         }
     }
-
-
-    // MÉTODOS UTILITÁRIOS DA VIEW (agora não-static)
 
 
     private int lerOpcaoInt() {

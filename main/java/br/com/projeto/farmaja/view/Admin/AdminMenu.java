@@ -387,6 +387,42 @@ public class AdminMenu {
     private void cadastrarMedicamento() {
         try {
             System.out.println("\n--- Cadastro de Medicamento ---");
+
+            // --- 1. BUSCA OS FORNECEDORES NO BANCO ---
+            List<Fornecedor> fornecedores = fornecedorController.listarFornecedoresAtivos();
+
+            // Se não tiver ninguém, avisa e cancela
+            if (fornecedores == null || fornecedores.isEmpty()) {
+                System.out.println("❌ ERRO: Nenhum fornecedor cadastrado.");
+                System.out.println("Vá no menu 'Gestão de Fornecedores' e cadastre um primeiro.");
+                return;
+            }
+
+            // Mostra a lista para você saber qual ID escolher
+            System.out.println("--- Fornecedores Disponíveis ---");
+            for (Fornecedor f : fornecedores) {
+                System.out.printf("ID: %d | Nome: %s\n", f.getId(), f.getNome());
+            }
+            System.out.println("--------------------------------");
+
+            System.out.print("Digite o ID do Fornecedor para este remédio: ");
+            int fornecedorId = lerOpcaoInt();
+
+            // Verifica se o ID que você digitou está na lista
+            boolean idValido = false;
+            for (Fornecedor f : fornecedores) {
+                if (f.getId() == fornecedorId) {
+                    idValido = true;
+                    break;
+                }
+            }
+
+            if (!idValido) {
+                System.out.println("❌ ID inválido. Escolha um ID da lista acima.");
+                return;
+            }
+            // ------------------------------------------
+
             System.out.print("Código (ex: 789...): ");
             String codigo = lerString();
             System.out.print("Nome: ");
